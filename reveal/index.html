@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="See everything a website can learn about you without asking — and how unique your browser fingerprint is. Runs entirely in your browser." />
+  <title>What Your Browser Reveals · Security Toolkit</title>
+  <script>
+    document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+  <link rel="stylesheet" href="../assets/css/toolkit.css" />
+  <link rel="stylesheet" href="reveal.css" />
+</head>
+
+<body data-title-en="What Your Browser Reveals · Security Toolkit" data-title-cs="Co o vás prozradí prohlížeč · Security Toolkit">
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html"><i class="fa-solid fa-shield-halved"></i><span class="logo-text">Security<span>Toolkit</span></span></a>
+      <div class="header-actions">
+        <a class="header-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> <span class="link-text" data-i18n="nav.tools">All tools</span></a>
+        <button type="button" class="lang-switch" aria-label="Switch language / Přepnout jazyk"><span data-lang="en">EN</span><span data-lang="cs">CZ</span></button>
+        <button type="button" class="icon-btn theme-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <span class="eyebrow">// tool 03</span>
+      <h1 data-i18n="fp.title">What Your Browser Reveals</h1>
+      <p data-i18n="fp.lead">Every website can read all of this the moment you open it — no permission, no cookies. Combined, it forms a <strong>fingerprint</strong> that can recognise you across websites.</p>
+      <span class="privacy-pill"><i class="fa-solid fa-lock"></i> <span data-i18n="fp.privacy">Measured on your device — nothing is sent or stored</span></span>
+    </section>
+
+    <section class="card fp-summary" id="summary">
+      <div class="fp-id-block">
+        <span class="fp-label" data-i18n="sum.idLabel">Your fingerprint ID</span>
+        <div class="fp-id" id="fp-id"><i class="fa-solid fa-circle-notch spin"></i></div>
+        <p class="muted small" data-i18n="sum.idNote">Calculated from the values below. Change nothing, and it stays the same.</p>
+      </div>
+      <div class="fp-unique-block">
+        <span class="fp-label" data-i18n="sum.uniqueLabel">How unique you are</span>
+        <div class="fp-unique" id="fp-unique">—</div>
+        <div class="uniq-bar"><span id="uniq-bar"></span></div>
+        <p class="mono-small" id="fp-bits"></p>
+      </div>
+      <div class="try-it">
+        <i class="fa-solid fa-flask"></i>
+        <p data-i18n="sum.try"><strong>Try it:</strong> open this page in a private / incognito window, or clear your cookies and come back. The ID stays the same — that's why fingerprinting works even when you block cookies.</p>
+      </div>
+    </section>
+
+    <div class="groups" id="groups"></div>
+
+    <section class="card">
+      <h2 class="card-title"><i class="fa-solid fa-paintbrush"></i> <span data-i18n="adv.title">Advanced tracking techniques</span></h2>
+      <p class="muted" data-i18n="adv.lead">Websites can secretly draw an image or process a sound. Tiny differences in your graphics card, drivers and system make the result slightly different on every computer — invisible to you, but easy to measure.</p>
+      <div class="adv-grid">
+        <div class="adv-item">
+          <strong data-i18n="adv.canvas">Canvas fingerprint</strong>
+          <div class="canvas-preview" id="canvas-preview"></div>
+          <code id="canvas-hash">—</code>
+          <p class="adv-status" id="canvas-status"></p>
+        </div>
+        <div class="adv-item">
+          <strong data-i18n="adv.audio">Audio fingerprint</strong>
+          <div class="audio-wave" id="audio-wave"></div>
+          <code id="audio-hash">—</code>
+          <p class="adv-status" id="audio-status"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title"><i class="fa-solid fa-font"></i> <span data-i18n="fonts.title">Installed fonts</span> <span class="count-pill" id="font-count">0</span></h2>
+      <p class="muted" data-i18n="fonts.lead">By measuring the width of text, a site can detect which fonts you have installed. Fonts from Microsoft Office, Adobe or design apps also reveal which software you use.</p>
+      <div class="font-chips" id="font-chips"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title"><i class="fa-solid fa-user-shield"></i> <span data-i18n="tips.title">How to protect yourself</span></h2>
+      <ul class="tips" data-i18n="tips.list">
+        <li><i class="fa-solid fa-circle-check"></i><div><strong>Use a browser with fingerprinting protection.</strong> Brave, Firefox (Enhanced Tracking Protection → Strict) and Safari add noise or hide details. Tor Browser makes everyone look the same.</div></li>
+        <li><i class="fa-solid fa-circle-check"></i><div><strong>Blend in instead of standing out.</strong> Rare settings, unusual fonts and many extensions make you <em>more</em> unique, not less.</div></li>
+        <li><i class="fa-solid fa-circle-check"></i><div><strong>Private windows don't help here.</strong> They delete cookies and history, but your fingerprint stays the same.</div></li>
+        <li><i class="fa-solid fa-circle-check"></i><div><strong>Use a tracker blocker</strong> such as uBlock Origin — it stops many fingerprinting scripts from loading at all.</div></li>
+        <li><i class="fa-solid fa-circle-check"></i><div><strong>Remember your IP address.</strong> Every site sees it too (it's not shown here because this page contacts no server). A VPN hides it — but not your fingerprint.</div></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span><span data-i18n="footer.built">Built by</span> <a href="../../persoFortfolio/index.html">Rostislav Nevoral</a> · © <span data-year></span></span>
+      <span class="footer-links">
+        <a href="https://github.com/tewyss" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="../assets/js/common.js"></script>
+  <script src="reveal.js"></script>
+  <script>
+    setTimeout(function () {
+      if (window.__revealLoaded) return;
+      var cs = localStorage.getItem("lang") === "cs";
+      document.getElementById("fp-id").innerHTML = '<span class="fp-error">' + (cs
+        ? "Váš blokovač reklam nebo sledování zastavil tuto ukázku — přesně tak vás chrání před skutečnými skripty pro otisky. Pro zobrazení ukázky povolte tento web v blokovači a obnovte stránku."
+        : "Your ad or tracker blocker stopped this demo — which is exactly how it protects you from real fingerprinting scripts. To see the demo, allow this site in your blocker and reload.") + "</span>";
+    }, 3000);
+  </script>
+</body>
+</html>

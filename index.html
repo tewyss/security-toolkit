@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Security Toolkit — small, privacy-first security tools that run entirely in your browser. Built by Rostislav Nevoral." />
+  <title>Security Toolkit</title>
+  <script>
+    document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+  <link rel="stylesheet" href="assets/css/toolkit.css" />
+</head>
+
+<body data-title-en="Security Toolkit" data-title-cs="Security Toolkit">
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><i class="fa-solid fa-shield-halved"></i><span class="logo-text">Security<span>Toolkit</span></span></a>
+      <div class="header-actions">
+        <a class="header-link" href="https://rostislavnevoral.dev" target="_blank" rel="noopener"><span class="link-text" data-i18n="nav.portfolio">Portfolio</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <button type="button" class="lang-switch" aria-label="Switch language / Přepnout jazyk"><span data-lang="en">EN</span><span data-lang="cs">CZ</span></button>
+        <button type="button" class="icon-btn theme-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <span class="eyebrow">// security toolkit</span>
+      <h1 data-i18n="home.title">Security Toolkit</h1>
+      <p data-i18n="home.lead">Small, privacy-first security tools that run entirely in your browser. No accounts, no tracking, no data stored anywhere.</p>
+      <span class="privacy-pill"><i class="fa-solid fa-lock"></i> <span data-i18n="home.privacy">Your data never leaves your device</span></span>
+    </section>
+
+    <section class="tools-grid">
+      <a class="tool-card" href="password/index.html">
+        <span class="badge live" data-i18n="home.live">Live</span>
+        <div class="tool-icon"><i class="fa-solid fa-key"></i></div>
+        <h2 data-i18n="home.pw.title">Password Checker</h2>
+        <p data-i18n="home.pw.desc">See how strong a password really is, how long it would take to crack, and whether it has leaked in a data breach — without ever sending it anywhere.</p>
+        <span class="tool-cta"><span data-i18n="home.open">Open tool</span> <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a class="tool-card" href="phishing/index.html">
+        <span class="badge live" data-i18n="home.live">Live</span>
+        <div class="tool-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+        <h2 data-i18n="home.ph.title">Phishing Email Analyzer</h2>
+        <p data-i18n="home.ph.desc">Paste the source of a suspicious email and see where it really came from, whether it passed SPF, DKIM and DMARC, and which warning signs it shows.</p>
+        <span class="tool-cta"><span data-i18n="home.open">Open tool</span> <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a class="tool-card" href="reveal/index.html">
+        <span class="badge live" data-i18n="home.live">Live</span>
+        <div class="tool-icon"><i class="fa-solid fa-fingerprint"></i></div>
+        <h2 data-i18n="home.fp.title">What Your Browser Reveals</h2>
+        <p data-i18n="home.fp.desc">See everything a website learns about you the moment you open it — and how unique your browser fingerprint is, even without cookies.</p>
+        <span class="tool-cta"><span data-i18n="home.open">Open tool</span> <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span><span data-i18n="footer.built">Built by</span> <a href="https://rostislavnevoral.dev" target="_blank" rel="noopener">Rostislav Nevoral</a> · © <span data-year></span></span>
+      <span class="footer-links">
+        <a href="https://github.com/tewyss" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js"></script>
+  <script>
+    Toolkit.init({
+      "nav.portfolio": "Portfolio",
+      "home.title": "Security Toolkit",
+      "home.lead": "Malé bezpečnostní nástroje, které běží celé ve vašem prohlížeči. Žádné účty, žádné sledování, žádná uložená data.",
+      "home.privacy": "Vaše data nikdy neopustí vaše zařízení",
+      "home.live": "Online",
+      "home.soon": "Již brzy",
+      "home.open": "Otevřít nástroj",
+      "home.pw.title": "Kontrola hesla",
+      "home.pw.desc": "Zjistěte, jak silné heslo doopravdy je, jak dlouho by trvalo ho prolomit a jestli neuniklo při úniku dat — aniž byste ho kamkoli odeslali.",
+      "home.ph.title": "Analyzátor phishingových e-mailů",
+      "home.ph.desc": "Vložte zdrojový kód podezřelého e-mailu a zjistěte, odkud doopravdy přišel, jestli prošel kontrolami SPF, DKIM a DMARC a jaké má varovné signály.",
+      "home.fp.title": "Co o vás prozradí prohlížeč",
+      "home.fp.desc": "Podívejte se, co se o vás web dozví hned, jak ho otevřete — a jak jedinečný je otisk vašeho prohlížeče, i bez cookies.",
+      "footer.built": "Vytvořil",
+    });
+  </script>
+</body>
+</html>

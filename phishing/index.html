@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Paste the headers of a suspicious email and see where it came from, whether it passed SPF, DKIM and DMARC, and which warning signs it shows — privately, in your browser." />
+  <title>Phishing Email Analyzer · Security Toolkit</title>
+  <script>
+    document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+  <link rel="stylesheet" href="../assets/css/toolkit.css" />
+  <link rel="stylesheet" href="phishing.css" />
+</head>
+
+<body data-title-en="Phishing Email Analyzer · Security Toolkit" data-title-cs="Analyzátor phishingu · Security Toolkit">
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html"><i class="fa-solid fa-shield-halved"></i><span class="logo-text">Security<span>Toolkit</span></span></a>
+      <div class="header-actions">
+        <a class="header-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> <span class="link-text" data-i18n="nav.tools">All tools</span></a>
+        <button type="button" class="lang-switch" aria-label="Switch language / Přepnout jazyk"><span data-lang="en">EN</span><span data-lang="cs">CZ</span></button>
+        <button type="button" class="icon-btn theme-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <span class="eyebrow">// tool 02</span>
+      <h1 data-i18n="ph.title">Phishing Email Analyzer</h1>
+      <p data-i18n="ph.lead">Paste the original source of a suspicious email and see where it really came from, whether it passed SPF, DKIM and DMARC, and which warning signs it shows.</p>
+      <span class="privacy-pill"><i class="fa-solid fa-lock"></i> <span data-i18n="ph.privacy">Nothing is uploaded — the analysis runs in your browser</span></span>
+    </section>
+
+    <section class="card">
+      <div class="mode-tabs" role="tablist">
+        <button type="button" class="mode-tab active" data-mode="full" role="tab" aria-selected="true">
+          <i class="fa-solid fa-file-lines"></i>
+          <span><strong data-i18n="mode.full">Whole email</strong><small data-i18n="mode.fullHint">Gmail, Outlook, Thunderbird, Apple Mail</small></span>
+        </button>
+        <button type="button" class="mode-tab" data-mode="split" role="tab" aria-selected="false">
+          <i class="fa-solid fa-table-columns"></i>
+          <span><strong data-i18n="mode.split">Headers + text</strong><small data-i18n="mode.splitHint">Seznam, or when you have them separately</small></span>
+        </button>
+      </div>
+
+      <div class="mode-panel" data-panel="full">
+        <label for="source" class="field-label" data-i18n="ph.label">Email source (headers + body)</label>
+        <textarea id="source" class="source" spellcheck="false" autocomplete="off"
+                  placeholder="Received: from …&#10;From: …&#10;Subject: …"></textarea>
+      </div>
+
+      <div class="mode-panel" data-panel="split" hidden>
+        <label for="src-headers" class="field-label"><span class="step-dot">1</span> <span data-i18n="split.headers">Headers</span></label>
+        <textarea id="src-headers" class="source source-headers" spellcheck="false" autocomplete="off"
+                  placeholder="Received: from …&#10;From: …&#10;Subject: …"></textarea>
+
+        <label for="src-body" class="field-label field-label-2"><span class="step-dot">2</span> <span data-i18n="split.body">Email text</span> <span class="optional" data-i18n="split.optional">optional — needed for checking links</span></label>
+        <textarea id="src-body" class="source source-body" spellcheck="false" autocomplete="off"
+                  placeholder="Dear customer, …" data-i18n-placeholder="split.bodyPlaceholder"></textarea>
+      </div>
+
+      <div class="input-actions">
+        <button type="button" class="btn btn-primary" id="analyze"><i class="fa-solid fa-magnifying-glass"></i> <span data-i18n="ph.analyze">Analyze email</span></button>
+        <button type="button" class="btn btn-ghost" id="ex-phish"><i class="fa-solid fa-fish"></i> <span data-i18n="ph.exPhish">Phishing example</span></button>
+        <button type="button" class="btn btn-ghost" id="ex-legit"><i class="fa-solid fa-circle-check"></i> <span data-i18n="ph.exLegit">Safe example</span></button>
+        <button type="button" class="btn btn-ghost" id="clear"><i class="fa-solid fa-eraser"></i> <span data-i18n="ph.clear">Clear</span></button>
+      </div>
+
+      <details class="help">
+        <summary><i class="fa-solid fa-circle-question"></i> <span data-i18n="help.title">Where do I find the email source?</span></summary>
+        <ul data-i18n="help.list">
+          <li><strong>Gmail:</strong> open the email → <em>⋮ More</em> → <em>Show original</em> → <em>Copy to clipboard</em></li>
+          <li><strong>Outlook (web):</strong> open the email → <em>⋯</em> → <em>View</em> → <em>View message source</em></li>
+          <li><strong>Seznam Email:</strong> open the email → <em>⋯</em> → <em>Show source</em>. Seznam shows only the headers — use the <em>Headers + text</em> tab and paste the email text into the second box.</li>
+          <li><strong>Thunderbird:</strong> open the email → <em>Ctrl + U</em></li>
+          <li><strong>Apple Mail:</strong> <em>View</em> → <em>Message</em> → <em>Raw Source</em></li>
+        </ul>
+      </details>
+    </section>
+
+    <div id="results" hidden>
+      <section class="card verdict" id="verdict"></section>
+
+      <div class="grid-2">
+        <section class="card">
+          <h2 class="card-title"><i class="fa-solid fa-id-card"></i> <span data-i18n="ov.title">Overview</span></h2>
+          <dl class="kv" id="overview"></dl>
+        </section>
+
+        <section class="card">
+          <h2 class="card-title"><i class="fa-solid fa-user-shield"></i> <span data-i18n="auth.title">Sender authentication</span></h2>
+          <div class="auth" id="auth"></div>
+        </section>
+      </div>
+
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-flag"></i> <span data-i18n="flags.title">Findings</span></h2>
+        <ul class="findings" id="findings"></ul>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-route"></i> <span data-i18n="path.title">Delivery path</span></h2>
+        <p class="muted small" data-i18n="path.lead">Every mail server adds a <code>Received</code> line. Read from the origin (top) to your inbox (bottom).</p>
+        <ol class="hops" id="hops"></ol>
+      </section>
+
+      <section class="card" id="links-card">
+        <h2 class="card-title"><i class="fa-solid fa-link"></i> <span data-i18n="links.title">Links in the email</span></h2>
+        <div class="links" id="links"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span><span data-i18n="footer.built">Built by</span> <a href="../../persoFortfolio/index.html">Rostislav Nevoral</a> · © <span data-year></span></span>
+      <span class="footer-links">
+        <a href="https://github.com/tewyss" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="../assets/js/common.js"></script>
+  <script src="examples.js"></script>
+  <script src="phishing.js"></script>
+</body>
+</html>

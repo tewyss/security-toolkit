@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Check how strong your password is and whether it leaked in a data breach — privately, in your browser." />
+  <title>Password Checker · Security Toolkit</title>
+  <script>
+    document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+  <link rel="stylesheet" href="../assets/css/toolkit.css" />
+  <link rel="stylesheet" href="password.css" />
+</head>
+
+<body data-title-en="Password Checker · Security Toolkit" data-title-cs="Kontrola hesla · Security Toolkit">
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html"><i class="fa-solid fa-shield-halved"></i><span class="logo-text">Security<span>Toolkit</span></span></a>
+      <div class="header-actions">
+        <a class="header-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> <span class="link-text" data-i18n="nav.tools">All tools</span></a>
+        <button type="button" class="lang-switch" aria-label="Switch language / Přepnout jazyk"><span data-lang="en">EN</span><span data-lang="cs">CZ</span></button>
+        <button type="button" class="icon-btn theme-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <span class="eyebrow">// tool 01</span>
+      <h1 data-i18n="pw.title">Password Checker</h1>
+      <p data-i18n="pw.lead">See how strong a password really is, how long it would take to crack, and whether it has already leaked in a data breach.</p>
+      <span class="privacy-pill"><i class="fa-solid fa-lock"></i> <span data-i18n="pw.privacy">Your password never leaves this device</span></span>
+    </section>
+
+    <section class="card">
+      <label for="pw" class="field-label" data-i18n="pw.label">Password to test</label>
+      <div class="pw-field">
+        <i class="fa-solid fa-key field-icon"></i>
+        <input id="pw" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="Type a password…" data-i18n-placeholder="pw.placeholder" />
+        <button type="button" class="field-btn" id="toggle-visibility" aria-label="Show / hide"><i class="fa-regular fa-eye"></i></button>
+        <button type="button" class="field-btn" id="copy-pw" aria-label="Copy"><i class="fa-regular fa-copy"></i></button>
+      </div>
+
+      <div class="meter" id="meter" data-score="-1">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="meter-info">
+        <strong id="strength-label">—</strong>
+        <span id="meter-meta" class="mono-small"></span>
+      </div>
+
+      <ul class="feedback" id="feedback"></ul>
+
+      <div class="input-actions">
+        <button type="button" class="btn btn-ghost" id="generate"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="pw.generate">Generate a strong password</span></button>
+        <p class="muted small" data-i18n="pw.tip">Tip: never type your real passwords into websites you don't trust — test similar ones instead.</p>
+      </div>
+    </section>
+
+    <div class="grid-2">
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-database"></i> <span data-i18n="breach.title">Data breach check</span></h2>
+        <div class="status" id="breach-status"></div>
+        <p class="muted small" data-i18n="breach.source">Checked against the <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener">Have I Been Pwned</a> list of passwords exposed in real data breaches.</p>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-list-check"></i> <span data-i18n="check.title">Checklist</span></h2>
+        <ul class="checklist" id="checklist">
+          <li data-check="length"><i></i><span data-i18n="check.length">At least 12 characters</span></li>
+          <li data-check="lower"><i></i><span data-i18n="check.lower">Lowercase letters</span></li>
+          <li data-check="upper"><i></i><span data-i18n="check.upper">Uppercase letters</span></li>
+          <li data-check="digit"><i></i><span data-i18n="check.digit">Numbers</span></li>
+          <li data-check="symbol"><i></i><span data-i18n="check.symbol">Symbols or spaces</span></li>
+          <li data-check="repeat"><i></i><span data-i18n="check.repeat">No repeated characters (aaa)</span></li>
+          <li data-check="sequence"><i></i><span data-i18n="check.sequence">No sequences (abc, 123, qwerty)</span></li>
+          <li data-check="common"><i></i><span data-i18n="check.common">Not a common word or password</span></li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2 class="card-title"><i class="fa-solid fa-stopwatch"></i> <span data-i18n="crack.title">How long would it take to crack?</span></h2>
+      <p class="muted" data-i18n="crack.lead">It depends on how the attacker gets to it. Estimates are based on the number of guesses a smart attacker would need (calculated with <a href="https://github.com/dropbox/zxcvbn" target="_blank" rel="noopener">zxcvbn</a>).</p>
+      <div class="crack-table" id="crack-table"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title"><i class="fa-solid fa-user-secret"></i> <span data-i18n="how.title">How the breach check keeps your password private</span></h2>
+      <ol class="steps">
+        <li>
+          <span class="step-num">1</span>
+          <div>
+            <strong data-i18n="how.s1">Your browser hashes the password with SHA-1</strong>
+            <code id="step-hash">—</code>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div>
+            <strong data-i18n="how.s2">Only the first 5 characters of the hash are sent to the server</strong>
+            <code id="step-prefix">—</code>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div>
+            <strong data-i18n="how.s3">The server returns every leaked hash that starts with them — plus random padding</strong>
+            <code id="step-received">—</code>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <div>
+            <strong data-i18n="how.s4">Your browser looks for the rest of the hash in that list, locally</strong>
+            <code id="step-match">—</code>
+          </div>
+        </li>
+      </ol>
+      <p class="muted" data-i18n="how.note">This technique is called <strong>k-anonymity</strong>: the server never learns your password — not even its full hash — because hundreds of different passwords share the same 5-character prefix.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span><span data-i18n="footer.built">Built by</span> <a href="../../persoFortfolio/index.html">Rostislav Nevoral</a> · © <span data-year></span></span>
+      <span class="footer-links">
+        <a href="https://github.com/tewyss" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js" async
+          onload="window.dispatchEvent(new Event('zxcvbn-ready'))"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="password.js"></script>
+</body>
+</html>
