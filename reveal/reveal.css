@@ -20,9 +20,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px 32px;
-  background:
-    radial-gradient(circle at 0% 0%, var(--accent-soft), transparent 55%),
-    var(--card-bg);
+  background: var(--card-bg);
 }
 
 .fp-label {
@@ -70,7 +68,7 @@
   display: flex;
   gap: 14px;
   padding: 14px 16px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   background: var(--card-hover);
 }
 
@@ -141,7 +139,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
-  border-radius: 999px;
+  border-radius: 4px;
   white-space: nowrap;
 }
 
@@ -175,7 +173,7 @@
 
 .adv-item {
   padding: 16px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   border: 1px solid var(--border-color);
 }
 
@@ -188,7 +186,7 @@
 .canvas-preview,
 .audio-wave {
   height: 90px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: #fff;
   overflow: hidden;
   display: grid;
@@ -233,7 +231,7 @@
   padding: 1px 10px;
   font-family: var(--font-mono);
   font-size: 13px;
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--accent);
   background: var(--accent-soft);
 }
